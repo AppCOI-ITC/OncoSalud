@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "appcoi-itc": {
+      "hosting": {
+        "app": [
+          "appcoi-itc"
+        ]
+      }
+    }
+  }
+}
