@@ -18,6 +18,7 @@
 }
   
 #log_button {
+    font-family: 'Nunito', sans-serif; /** Carga de font - Lourdes **/
     align-items: center;
     margin-top: 20px;
     margin-left: 10%;
@@ -33,12 +34,14 @@
 }
 
 div p {
+   font-family: 'Nunito', sans-serif; /** Carga de font - Lourdes **/
   text-align: center;
   font-weight: bold;
   font-size: 22px;
 }
 
 .log {
+  font-family: 'Nunito', sans-serif; /** Carga de font - Lourdes **/
   border-radius: 35px;
   margin-bottom: 8px;
   font-size: 20px;
