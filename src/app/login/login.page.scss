@@ -1,0 +1,43 @@
+
+#title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+}
+  
+#container {
+    position: absolute;
+    margin-top: 10px;
+    left: 15px;
+    right: 15px;
+    top: 68%;
+    transform: translateY(-50%);
+}
+  
+#log_button {
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+    font-size: 22px;
+}
+  
+#logo_inicio {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 65%;
+}
+
+div p {
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.log {
+  border-radius: 35px;
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}

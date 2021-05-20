@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, switchMapTo, take } from "rxjs/operators";
+import { Router } from '@angular/router';
+import { Injectable, Query } from '@angular/core';
 import { User } from "../shared/user.interface";
 import { AngularFireAuth } from "@angular/fire/auth";
-
 import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/firestore";
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from "rxjs/operators";
-import { Router } from '@angular/router';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
-import { AuthGuard } from '../shared/auth.guard';
+import { ReactiveFormsModule } from '@angular/forms';
+
+//Este archivo tiene los metodos de AuthService los cuales se utilizan para
+//el logueo, el registro, la recuperacion del password y del envio de un correo de confirmacion
+
+//to do:
+//finalizar la funcion de actualizacion de informacion de usuario
 
 
 @Injectable({
@@ -15,18 +19,26 @@ import { AuthGuard } from '../shared/auth.guard';
 })
 
 export class AuthService {
-  public user$: Observable<User>;
+  public user$: Observable<User>; //variable pipe que permitira su lectura desde 
+  public userR$: Observable<Object>;
 
   constructor(private afAuth:AngularFireAuth, private afs: AngularFirestore, private router:Router) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user)=>{
         if(user){
-          console.log('pase por aca');
           return this.afs.doc<User>(`DataUsuarios/${user.uid}`).valueChanges();
         }
         return of(null);
       }) 
     );
+    this.userR$ = this.afAuth.authState.pipe(
+      switchMap((userR)=>{
+        console.log('hola que acelga')
+        if(userR){
+          return this.afs.collection(`questResponses`).valueChanges();
+        }
+      })
+    )
   }
 
   async register(email: string, password: string): Promise<User> {
@@ -39,14 +51,15 @@ export class AuthService {
     }
   }
   
-  async login(email: string, password: string): Promise<User> {
+  async login(email: string, password: string): Promise<Object> {
     try {
       const {user} = await this.afAuth.signInWithEmailAndPassword(email, password);
       // this.updateUserdata(user);
       this.redirectUser();
       return user
     } catch (error) {
-      console.log('error->',error)
+      return error['code'];
+      // console.log('error->',error['code'])
     }
   }
 
@@ -73,24 +86,56 @@ export class AuthService {
     }
   }
 
-  private updateUserdata(user:User) {
-    const userRef:AngularFirestoreDocument<User> = this.afs.doc(`Datausuarios/${user.uid}`);
-    const ref = this.afs.doc(`Datausuario/${user.uid}`)
-    const data = {
-      email: user.email,
-      isAdmin: false,
-    }
-    console.log(ref.get())
-    // const data: User = {
-    //   uid: user.uid,
-    //   email: user.email,
-    // };
+  readData() {
+    return this.afs.collection(`questResponses`).snapshotChanges();
+  }
 
-    return ref.set(data);
+  private updateUserdata(user:User) {
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`Datausuarios/${user.uid}`);
+    const ref = this.afs.doc(`userData/${user.uid}`)
+    const refa = this.afs.doc(`questResponses/cZ8ZLNK9QlmIavYNewnp`)
+    // this.userR$.subscribe(data=>{
+    //   // console.log(data['responses'][0]['cCode']);
+    //   console.log(data[0]);
+    // })
+
+    // const data = {
+    //   personalData: {
+    //     dni: 43834029,
+    //     gender: "masculino",
+    //     name: {
+    //       fName: "Francisco Nicolas",
+    //       lName: "Calderon Acosta"
+    //     },
+    //     age: 19,
+    //     birth: '09-12-2001',
+    //     adress: 'Prueba 123',
+    //     dCode: "codigodealgo",
+    //     mail: 'cfrancisco23273@gmail.com'
+    //   },
+    //   UID_COI: "algo de ejemplo",
+    //   cCode: '001',
+    //   accessLevel: 0,
+    //   isFirstAccess: True
+    // };
+    const dataResponses = {
+      USER_UID: user.uid,
+      responses: [
+        {
+          date: '18-5-2021',
+          cCode: '001',
+          response: [1,2,3,4,1,2],
+        },
+      ]
+    };
+    // console.log(ref.get())
+    // console.log('se updateo algo, ni idea que');
+    refa.set(dataResponses);
+    // return ref.set(data);
   }
 
   private redirectUser(){
-      this.router.navigate(['/home-p']);
+    this.router.navigate(['paciente/']);
   }
 
 }

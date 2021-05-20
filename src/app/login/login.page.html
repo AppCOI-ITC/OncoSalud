@@ -1,25 +1,25 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title id="title">inicio de sesion</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<form>
-  <ion-item lines="full">
-    <ion-label position="floating">Email</ion-label>
-    <ion-input type="text" #email required></ion-input>
-  </ion-item>
-  <ion-item lines="full">
-    <ion-label position="floating">password</ion-label>
-    <ion-input type="password" #password required></ion-input>
-  </ion-item>
-  <ion-row>
-    <ion-col>
-      <ion-button type="submit" (click)="onLogin(email, password)" expand="block">
-        Login
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</form>
+<ion-content [fullscreen]="true">
+  <div>
+    <img src="assets/icon/Logo_OncoSalud_Grande.png" id="logo_inicio">
+    <p>OncoSALUD</p>
+  </div>
+  <div id="container">
+    <ion-item class="log">
+      <ion-label position="floating">USUARIO</ion-label>
+      <ion-input type="text" #email required></ion-input>
+    </ion-item>
+    <ion-item class="log">
+      <ion-label position="floating">CONTRASEÑA</ion-label>
+      <ion-input type="password" #password required></ion-input>
+    </ion-item>
+    <ion-button type="submit" (click)="onLogin(email, password)" expand="block">
+      Ingresar
+    </ion-button>
+  </div>
 </ion-content>
