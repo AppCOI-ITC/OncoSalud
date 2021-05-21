@@ -26,7 +26,7 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user)=>{
         if(user){
-          return this.afs.doc<User>(`DataUsuarios/${user.uid}`).valueChanges();
+          return this.afs.doc<User>(`userData/${user.uid}`).valueChanges();
         }
         return of(null);
       }) 
@@ -51,16 +51,9 @@ export class AuthService {
     }
   }
   
-  async login(email: string, password: string): Promise<Object> {
-    try {
-      const {user} = await this.afAuth.signInWithEmailAndPassword(email, password);
-      // this.updateUserdata(user);
-      this.redirectUser();
-      return user
-    } catch (error) {
-      return error['code'];
-      // console.log('error->',error['code'])
-    }
+  async login(email: string, password: string): Promise<string> {
+    return await this.afAuth.signInWithEmailAndPassword(email, password).then((user)=> this.redirectUser())
+      .catch((error)=> error['code'])
   }
 
   async resetPassword(email: string): Promise<void> {

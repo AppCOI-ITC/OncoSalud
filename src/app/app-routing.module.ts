@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './shared/auth.guard';
-import { Authl2Guard } from './shared/authl2.guard';
+import { AuthGuardL1 } from './shared/authl1.guard';
 
 const routes: Routes = [
   {
@@ -20,7 +20,8 @@ const routes: Routes = [
   },
   {
     path: 'medico',
-    loadChildren: () => import('./medico/medico.module').then( m => m.MedicoPageModule)
+    loadChildren: () => import('./medico/medico.module').then( m => m.MedicoPageModule),
+    canLoad:[AuthGuardL1]
   },
 ];
 

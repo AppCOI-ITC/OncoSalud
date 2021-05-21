@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from "../services/auth.service";
 
@@ -8,20 +9,32 @@ import { AuthService } from "../services/auth.service";
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  errorHandling: String = ''
+  private ionicForm: FormGroup;
 
-  constructor(private authSvc:AuthService, private router: Router) { }
-
-  ngOnInit() {
+  errorMessages = {
+    'auth/user-not-found': 'email no encontrado',
+    'auth/wrong-password': 'contraseña o email invalidos'
   }
 
-  async onLogin(email, password){
-    try {
-      const user = await this.authSvc.login(email.value, password.value);
-      if (user == 'auth/invalid-email'){
-        alert("mail invalido")
-      }
-    } catch (error) {
-      console.log('Error->',error)
+  constructor(private authSvc:AuthService, private router: Router,private formBuilder: FormBuilder) { }
+
+  ngOnInit() {
+    this.ionicForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]  
+    })
+  }
+
+  async submitForm() {
+    if (!this.ionicForm.valid) {
+      return false;
+    } else {
+      /*var estado =*/ 
+      var estado = await this.authSvc.login(this.ionicForm.value['email'], this.ionicForm.value['password'])
+      console.log(estado)
+      this.errorHandling = this.errorMessages[estado]
+      // console.log(this.ionicForm.value)
     }
   }
 }
