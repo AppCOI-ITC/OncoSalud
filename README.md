@@ -1,6 +1,6 @@
 # OncoSalud
 
-![Oncosalud](../assets/icon/Logo_Oncosalud_mediano.png)
+![Oncosalud](assets/icon/Logo_Oncosalud_mediano.png)
 
 ## Aplicacion desarrollada por el ITC y el COI
 
