@@ -9,13 +9,15 @@ import { PacientePageRoutingModule } from './paciente-routing.module';
 import { PacientePage } from './paciente.page';
 import { AuthGuard } from '../shared/auth.guard';
 import { AuthService } from '../services/auth.service';
+import { CalendarModule } from 'ion2-calendar';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PacientePageRoutingModule
+    PacientePageRoutingModule,
+    CalendarModule
   ],
   declarations: [PacientePage],
   providers: [
