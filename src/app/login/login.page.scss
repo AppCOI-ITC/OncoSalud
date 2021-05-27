@@ -2,6 +2,10 @@
   font-family: 'Nunito', sans-serif; /** Carga de font - Lourdes **/
 }
 
+ion-content {
+  --ion-brackground-color: #7e55c0;
+}
+
 #title {
     text-align: center;
     font-weight: bold;

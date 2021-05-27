@@ -1,9 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>paciente</ion-title>
+    <!-- <ion-title></ion-title> -->
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <div>
+    <img src="..\assets\icon\Logo_OncoSalud.png">  
+    <p>OncoSALUD</p>
+  </div>
+  <div>
+    <ion-calendar [(ngModel)]="date"
+    (onChange)="onChange($event)"
+    [type]="type"
+    [format]="'YYYY-MM-DD'">
+  </ion-calendar>
+  </div>
+  <div>
+    <ion-button (click)="pAlertCuestionarioE()" fill="clear" shape="round">
+      Cuestionario Excepcional
+    </ion-button>
+    <ion-button (click)="goCuestionario()" fill="clear" shape="round">
+      Cuestionario
+    </ion-button>
+    <!-- acceso cuestionario/cuestionario-e/etc -->
+  </div>
 </ion-content>
